@@ -15,10 +15,13 @@ git submodule add https://github.com/Mykaelos/MykaelosUnityLevelLayoutGenerator.
 
 ## Authors
 
-* **Mykaelos** - [Mykaelos on Github](https://github.com/Mykaelos) [@Mykaelos](https://twitter.com/Mykaelos) [Blog](http://www.mykaelos.com)
-
+* **Mykaelos**
+    * [Mykaelos on Github](https://github.com/Mykaelos)
+    * [@Mykaelos](https://twitter.com/Mykaelos)
+    * [Blog](http://www.mykaelos.com)
 
 ## License
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE.md](LICENSE.md) file for details.
+
 Pretty much do whatever you want with this code. It either came from me or CC0 sources. I can't promise any of it working, ever, and you use the code at your own risk. Also, most of this code will be in a constant state of flux, because I change it as my projects evolve. So this project may be better used as examples of ways to solve specific coding problems, and as a starting point to your own better solutions.

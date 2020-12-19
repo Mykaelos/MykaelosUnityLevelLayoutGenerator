@@ -1,0 +1,8 @@
+
+
+
+
+2020/12/19
+1h - Dug around for which version of the LevelLayoutGenerator was the latest and did Yield correctly. Turns out it was Dungeon World, which I had totally forgot about.
+1h - Added a button to toggle Yield so I can switch between instant generation and yielded generation.
+1h - Copied code over to its own git project, so I can stop copypasta-ing it everywhere.
