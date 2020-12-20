@@ -3,6 +3,7 @@
 
 2020/12/20
 1h - Moved test scene into it's own folder and created a prefab to hold the LevelLayoutGenerator test scene controller, to make it easier to create new test scenes.
+30m - Moved utility classes into Utilities folder and namespace.
 
 
 2020/12/19

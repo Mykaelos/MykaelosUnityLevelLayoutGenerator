@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using MykaelosUnityLevelLayoutGenerator.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,12 +33,12 @@ public class LevelLayoutGenerator {
         YieldManager = new YieldManager(Owner);
     }
 
-    public void GenerateLevel(LevelRequirements levelRequirements, Action<LevelLayoutData> callback = null) {
+    public void GenerateLevel(LevelRequirements levelRequirements, Action<LevelLayoutData> completeCallback = null) {
         if (CurrentCoroutine != null) {
             Owner.StopCoroutine(CurrentCoroutine);
         }
 
-        Callback = callback;
+        Callback = completeCallback;
         Duration.Start();
         LevelLayoutData = new LevelLayoutData();
         LevelRequirements = levelRequirements;

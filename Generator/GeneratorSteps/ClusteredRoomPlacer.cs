@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using MykaelosUnityLevelLayoutGenerator.Utilities;
 using UnityEngine;
 
 public class ClusteredRoomPlacer : IGeneratorPart {

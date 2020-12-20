@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using MykaelosUnityLevelLayoutGenerator.Utilities;
 using UnityEngine;
 
 [System.Serializable] // So we can see it in the editor.
