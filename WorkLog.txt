@@ -1,6 +1,9 @@
 
 
 
+2020/12/20
+1h - Moved test scene into it's own folder and created a prefab to hold the LevelLayoutGenerator test scene controller, to make it easier to create new test scenes.
+
 
 2020/12/19
 1h - Dug around for which version of the LevelLayoutGenerator was the latest and did Yield correctly. Turns out it was Dungeon World, which I had totally forgot about.
