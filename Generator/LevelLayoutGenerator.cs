@@ -33,7 +33,7 @@ public class LevelLayoutGenerator {
         YieldManager = new YieldManager(Owner);
     }
 
-    public void GenerateLevel(LevelRequirements levelRequirements, Action<LevelLayoutData> completeCallback = null) {
+    public void GenerateLevel(LevelRequirements levelRequirements, List<IGeneratorPart> generatorParts, Action<LevelLayoutData> completeCallback = null) {
         if (CurrentCoroutine != null) {
             Owner.StopCoroutine(CurrentCoroutine);
         }
@@ -42,14 +42,7 @@ public class LevelLayoutGenerator {
         Duration.Start();
         LevelLayoutData = new LevelLayoutData();
         LevelRequirements = levelRequirements;
-        GeneratorParts = new List<IGeneratorPart> {
-            new ClusteredRoomPlacer(),
-            new PrepareRoomCells(),
-            new PortalPlacer(),
-            new SurroundRoomsWithWalls(),
-            new GenerateCellMetaData(),
-            new GenerateTreasureAndEnemies()
-        };
+        GeneratorParts = generatorParts.IsNotEmpty() ? generatorParts : new List<IGeneratorPart>();
         CurrentGeneratorPartIndex = -1;
 
         NextPart();

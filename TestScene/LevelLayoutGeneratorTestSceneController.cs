@@ -1,14 +1,25 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
     public Text DebugText;
     public LevelRequirements LevelRequirements = new LevelRequirements(500);
     private LevelLayoutGenerator LevelLayoutGenerator;
+    private List<IGeneratorPart> GeneratorParts = new List<IGeneratorPart>();
 
 
     private void Awake() {
         LevelLayoutGenerator = new LevelLayoutGenerator(this, DebugText);
+
+        GeneratorParts = new List<IGeneratorPart> {
+            new ClusteredRoomPlacer(),
+            new PrepareRoomCells(),
+            new PortalPlacer(),
+            new SurroundRoomsWithWalls(),
+            new GenerateCellMetaData(),
+            new GenerateTreasureAndEnemies()
+        };
     }
 
     private void Update() {
@@ -27,7 +38,7 @@ public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
 
     #region GUI Public Interface Methods
     public void GenerateLevel() {
-        LevelLayoutGenerator.GenerateLevel(LevelRequirements);
+        LevelLayoutGenerator.GenerateLevel(LevelRequirements, GeneratorParts);
     }
 
     public void IncreaseSpeed() {
