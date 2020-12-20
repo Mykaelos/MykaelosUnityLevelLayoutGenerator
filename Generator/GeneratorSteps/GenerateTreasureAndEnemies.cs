@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using MykaelosUnityLevelLayoutGenerator.Utilities;
 using UnityEngine;
 
-public class GenerateTreasureAndEnemies : IGeneratorPart {
+public class GenerateTreasureAndEnemies : IGeneratorStep {
     private LevelRequirements LevelRequirements;
     private LevelLayoutData LevelLayoutData;
     private LevelLayoutGenerator LevelLayoutGenerator;

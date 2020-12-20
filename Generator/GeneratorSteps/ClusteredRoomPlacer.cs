@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MykaelosUnityLevelLayoutGenerator.Utilities;
 using UnityEngine;
 
-public class ClusteredRoomPlacer : IGeneratorPart {
+public class ClusteredRoomPlacer : IGeneratorStep {
     private LevelRequirements LevelRequirements;
     private LevelLayoutData LevelLayoutData;
     private LevelLayoutGenerator LevelLayoutGenerator;

@@ -6,13 +6,13 @@ public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
     public Text DebugText;
     public LevelRequirements LevelRequirements = new LevelRequirements(500);
     private LevelLayoutGenerator LevelLayoutGenerator;
-    private List<IGeneratorPart> GeneratorParts = new List<IGeneratorPart>();
+    private List<IGeneratorStep> GeneratorSteps = new List<IGeneratorStep>();
 
 
     private void Awake() {
         LevelLayoutGenerator = new LevelLayoutGenerator(this, DebugText);
 
-        GeneratorParts = new List<IGeneratorPart> {
+        GeneratorSteps = new List<IGeneratorStep> {
             new ClusteredRoomPlacer(),
             new PrepareRoomCells(),
             new PortalPlacer(),
@@ -38,7 +38,7 @@ public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
 
     #region GUI Public Interface Methods
     public void GenerateLevel() {
-        LevelLayoutGenerator.GenerateLevel(LevelRequirements, GeneratorParts);
+        LevelLayoutGenerator.GenerateLevel(LevelRequirements, GeneratorSteps);
     }
 
     public void IncreaseSpeed() {

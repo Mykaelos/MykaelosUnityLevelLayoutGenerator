@@ -16,13 +16,13 @@ public class LevelLayoutGenerator {
     private Coroutine CurrentCoroutine;
     private Action<LevelLayoutData> Callback;
 
-    private List<IGeneratorPart> GeneratorParts = new List<IGeneratorPart>();
-    private int CurrentGeneratorPartIndex = -1;
+    private List<IGeneratorStep> GeneratorSteps = new List<IGeneratorStep>();
+    private int CurrentGeneratorStepIndex = -1;
 
-    private IGeneratorPart CurrentGeneratorPart {
+    private IGeneratorStep CurrentGeneratorStep {
         get {
-            return CurrentGeneratorPartIndex < GeneratorParts.Count && CurrentGeneratorPartIndex > -1 ?
-                GeneratorParts[CurrentGeneratorPartIndex] : null;
+            return CurrentGeneratorStepIndex < GeneratorSteps.Count && CurrentGeneratorStepIndex > -1 ?
+                GeneratorSteps[CurrentGeneratorStepIndex] : null;
         }
     }
 
@@ -33,7 +33,7 @@ public class LevelLayoutGenerator {
         YieldManager = new YieldManager(Owner);
     }
 
-    public void GenerateLevel(LevelRequirements levelRequirements, List<IGeneratorPart> generatorParts, Action<LevelLayoutData> completeCallback = null) {
+    public void GenerateLevel(LevelRequirements levelRequirements, List<IGeneratorStep> generatorSteps, Action<LevelLayoutData> completeCallback = null) {
         if (CurrentCoroutine != null) {
             Owner.StopCoroutine(CurrentCoroutine);
         }
@@ -42,15 +42,15 @@ public class LevelLayoutGenerator {
         Duration.Start();
         LevelLayoutData = new LevelLayoutData();
         LevelRequirements = levelRequirements;
-        GeneratorParts = generatorParts.IsNotEmpty() ? generatorParts : new List<IGeneratorPart>();
-        CurrentGeneratorPartIndex = -1;
+        GeneratorSteps = generatorSteps.IsNotEmpty() ? generatorSteps : new List<IGeneratorStep>();
+        CurrentGeneratorStepIndex = -1;
 
         NextPart();
     }
 
     private void NextPart() {
-        if (++CurrentGeneratorPartIndex < GeneratorParts.Count && CurrentGeneratorPart != null) {
-            CurrentCoroutine = YieldManager.RunCoroutine(CurrentGeneratorPart.Start(LevelRequirements, LevelLayoutData, this, NextPart));
+        if (++CurrentGeneratorStepIndex < GeneratorSteps.Count && CurrentGeneratorStep != null) {
+            CurrentCoroutine = YieldManager.RunCoroutine(CurrentGeneratorStep.Start(LevelRequirements, LevelLayoutData, this, NextPart));
         }
         else {
             Debug.Log("Finished Generating the Level!");
@@ -102,10 +102,10 @@ public class LevelLayoutGenerator {
                 debugString = debugString.NL();
             }
 
-            if (CurrentGeneratorPart != null) {
+            if (CurrentGeneratorStep != null) {
                 debugString +=
-                    "Running: {0}".FormatWith(CurrentGeneratorPart.GetType().Name).NL()
-                    + CurrentGeneratorPart.WriteDebug();
+                    "Running: {0}".FormatWith(CurrentGeneratorStep.GetType().Name).NL()
+                    + CurrentGeneratorStep.WriteDebug();
             }
 
             DebugText.text = debugString;
@@ -123,8 +123,8 @@ public class LevelLayoutGenerator {
             }
         }
 
-        if (CurrentGeneratorPart != null) {
-            CurrentGeneratorPart.DrawDebug();
+        if (CurrentGeneratorStep != null) {
+            CurrentGeneratorStep.DrawDebug();
         }
     }
 
@@ -132,7 +132,7 @@ public class LevelLayoutGenerator {
     #endregion
 }
 
-public interface IGeneratorPart {
+public interface IGeneratorStep {
     IEnumerator Start(LevelRequirements levelRequirements, LevelLayoutData levelLayoutData, LevelLayoutGenerator levelLayoutGenerator, Action callback);
     void DrawDebug();
     string WriteDebug();

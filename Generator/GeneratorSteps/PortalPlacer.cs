@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using MykaelosUnityLevelLayoutGenerator.Utilities;
 using UnityEngine;
 
-public class PortalPlacer : IGeneratorPart {
+public class PortalPlacer : IGeneratorStep {
     private LevelRequirements LevelRequirements;
     private LevelLayoutData LevelLayoutData;
     private LevelLayoutGenerator LevelLayoutGenerator;
