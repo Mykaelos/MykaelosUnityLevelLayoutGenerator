@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MykaelosUnityLevelLayoutGenerator.Generator;
 using UnityEngine;
 using UnityEngine.UI;
 

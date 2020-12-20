@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using MykaelosUnityLevelLayoutGenerator.Generator;
 using MykaelosUnityLevelLayoutGenerator.Utilities;
 using UnityEngine;
 
