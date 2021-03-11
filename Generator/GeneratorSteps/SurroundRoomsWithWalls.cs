@@ -59,6 +59,10 @@ public class SurroundRoomsWithWalls : IGeneratorStep {
         Vector3.up,
         Vector3.right,
         Vector3.down,
-        Vector3.left
+        Vector3.left, 
+        Vector3.up + Vector3.right, // Also check corners.
+        Vector3.down + Vector3.right,
+        Vector3.down + Vector3.left,
+        Vector3.up + Vector3.left
     };
 }
