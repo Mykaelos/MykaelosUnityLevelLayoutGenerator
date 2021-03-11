@@ -56,7 +56,7 @@ public class Cell { // A single 1*1 cell in the game world.
                 DebugColor = Color.red;
                 break;
             case CellType.Treasure:
-                DebugColor = Color.blue;
+                DebugColor = "#ff00ff".HexAsColor(); // Purple
                 break;
             case CellType.Enemy:
                 DebugColor = "#ffa500".HexAsColor(); // Orange

@@ -28,7 +28,8 @@ public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
             new AddStartingRoom(),
             new SurroundRoomsWithWalls(),
             new GenerateCellMetaData(),
-            new GenerateTreasureAndEnemies()
+            new GenerateEnemies(),
+            new GenerateTreasures()
         };
     }
 

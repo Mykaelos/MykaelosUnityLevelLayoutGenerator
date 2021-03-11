@@ -18,7 +18,7 @@ public class LevelRequirements {
     public float LevelRatioEnemiesPerCell = 5f / 100f;
 
     [Tooltip("Max Ratio of enemies per cells in each room.")]
-    public float RoomRatioMaxEnemiesPerCell = 1f / 40f;
+    public float RoomRatioMaxEnemiesPerCell = 1f / 20f;
 
     public LevelRequirements(int cellsMinimumCount) {
         CellsMinimumCount = cellsMinimumCount;

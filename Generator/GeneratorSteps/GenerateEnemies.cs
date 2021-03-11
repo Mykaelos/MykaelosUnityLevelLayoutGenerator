@@ -5,13 +5,15 @@ using MykaelosUnityLevelLayoutGenerator.Generator;
 using MykaelosUnityLevelLayoutGenerator.Utilities;
 using UnityEngine;
 
-public class GenerateTreasureAndEnemies : IGeneratorStep {
+public class GenerateEnemies : IGeneratorStep {
     private LevelRequirements LevelRequirements;
     private LevelLayoutData LevelLayoutData;
     private LevelLayoutGenerator LevelLayoutGenerator;
 
-    private List<RoomValue> RoomValues;
+    private List<RoomValue2> RoomValues;
     private Room CurrentRoom;
+
+    private float HighestAverageDistanceValue = 0;
 
 
     public IEnumerator Start(LevelRequirements levelRequirements, LevelLayoutData levelLayoutData, LevelLayoutGenerator levelLayoutGenerator, Action callback) {
@@ -20,7 +22,6 @@ public class GenerateTreasureAndEnemies : IGeneratorStep {
         LevelLayoutGenerator = levelLayoutGenerator;
 
         yield return LevelLayoutGenerator.StartCoroutine(CalculateAndSortRoomValue());
-        yield return LevelLayoutGenerator.StartCoroutine(DetermineTreasureCells());
         yield return LevelLayoutGenerator.StartCoroutine(DetermineEnemyCells());
 
         yield return LevelLayoutGenerator.Yield();
@@ -28,7 +29,7 @@ public class GenerateTreasureAndEnemies : IGeneratorStep {
     }
 
     private IEnumerator CalculateAndSortRoomValue() {
-        RoomValues = new List<RoomValue>();
+        RoomValues = new List<RoomValue2>();
 
         var roomList = new List<Room>(LevelLayoutData.Rooms);
         roomList.Remove(LevelLayoutData.StartingRoom); // Starting Room has no enemies.
@@ -36,7 +37,11 @@ public class GenerateTreasureAndEnemies : IGeneratorStep {
 
         foreach (var room in roomList) {
             CurrentRoom = room;
-            RoomValues.Add(new RoomValue(room));
+            var roomValue = new RoomValue2(room);
+            RoomValues.Add(roomValue);
+
+            HighestAverageDistanceValue = Mathf.Max(HighestAverageDistanceValue, roomValue.AverageDistanceValue);
+
             yield return LevelLayoutGenerator.Yield();
         }
 
@@ -47,65 +52,26 @@ public class GenerateTreasureAndEnemies : IGeneratorStep {
         yield return LevelLayoutGenerator.Yield();
     }
 
-    private IEnumerator DetermineTreasureCells() {
-        int numberOfTreasures = Mathf.CeilToInt(LevelLayoutData.Cells.Count * LevelRequirements.LevelRatioTreasuresPerCell);
-
-        for (int i = 0; i < numberOfTreasures; i++) {
-            var roomValue = FindNextTreasureRoom();
-            if (roomValue != null) {
-                var treasureCell = roomValue.Room.GetCellsByType(CellType.Default).RandomElement();
-                treasureCell.CellType = CellType.Treasure;
-                roomValue.NumberOfTreasureCells++;
-            }
-            else {
-                var treasureCell = LevelLayoutData.GetCellsByType(CellType.Default).RandomElement();
-                treasureCell.CellType = CellType.Treasure;
-                // Find roomValue and add treasurecell count?
-            }
-            yield return LevelLayoutGenerator.Yield();
-        }
-
-        yield return LevelLayoutGenerator.Yield();
-    }
-
     private IEnumerator DetermineEnemyCells() {
-        int numberOfEnemies = Mathf.CeilToInt(LevelLayoutData.Cells.Count * LevelRequirements.LevelRatioEnemiesPerCell);
+        // HighestAverageDistanceValue determines the most intense room. Scale down from there.
+        float enemyDensityMax = 0.2f;
 
-        for (int i = 0; i < numberOfEnemies; i++) {
-            var roomValue = FindNextEnemyRoom();
-            if (roomValue != null) {
+        foreach (var roomValue in RoomValues) {
+            float roomIntensity = roomValue.AverageDistanceValue / HighestAverageDistanceValue;
+            float roomDensity = roomIntensity * enemyDensityMax;
+            int numberOfEnemies = (int)(roomDensity * (float)roomValue.CellsCount);
+            roomValue.NumberOfEnemyCells = numberOfEnemies;
+
+            for (int i = 0; i < numberOfEnemies; i++) {
                 var enemyCell = roomValue.Room.GetCellsByType(CellType.Default).RandomElement();
                 enemyCell.CellType = CellType.Enemy;
-                roomValue.NumberOfEnemyCells++;
+                yield return LevelLayoutGenerator.Yield();
             }
-            else {
-                var enemyCell = LevelLayoutData.GetCellsByType(CellType.Default).RandomElement();
-                enemyCell.CellType = CellType.Enemy;
-            }
+
             yield return LevelLayoutGenerator.Yield();
         }
 
         yield return LevelLayoutGenerator.Yield();
-    }
-
-    private RoomValue FindNextTreasureRoom() {
-        foreach (var roomValue in RoomValues) {
-            if (roomValue.NumberOfTreasureCells < (roomValue.MaxTreasures(LevelRequirements))) {
-                return roomValue;
-            }
-        }
-
-        return null;
-    }
-
-    private RoomValue FindNextEnemyRoom() {
-        foreach (var roomValue in RoomValues) {
-            if (roomValue.NumberOfEnemyCells < (roomValue.MaxEnemies(LevelRequirements))) {
-                return roomValue;
-            }
-        }
-
-        return null;
     }
 
     #region Debug
@@ -116,7 +82,7 @@ public class GenerateTreasureAndEnemies : IGeneratorStep {
     }
 
     public string WriteDebug() {
-        string debugString = "";
+        string debugString = "HighestAverageDistanceValue : {0:N2}".FormatWith(HighestAverageDistanceValue).NL();
         foreach (var roomValue in RoomValues) {
             debugString += roomValue.WriteDebug(LevelRequirements).NL();
         }
@@ -126,18 +92,19 @@ public class GenerateTreasureAndEnemies : IGeneratorStep {
     #endregion
 }
 
-public class RoomValue : IComparable<RoomValue> {
+public class RoomValue2 : IComparable<RoomValue2> {
     public Room Room;
     public int CellsCount;
     public float TotalDistanceValue;
-    public int NumberOfTreasureCells;
+    public float AverageDistanceValue;
     public int NumberOfEnemyCells;
 
 
-    public RoomValue(Room room) {
+    public RoomValue2(Room room) {
         Room = room;
         CellsCount = Room.Cells.Count;
         TotalDistanceValue = CalculateTotalDistanceValue(Room);
+        AverageDistanceValue = TotalDistanceValue / (float)CellsCount;
     }
 
     private float CalculateTotalDistanceValue(Room room) {
@@ -156,7 +123,7 @@ public class RoomValue : IComparable<RoomValue> {
         return Mathf.CeilToInt(CellsCount * levelRequirements.RoomRatioMaxEnemiesPerCell);
     }
 
-    public int CompareTo(RoomValue other) {
+    public int CompareTo(RoomValue2 other) {
         int distance = TotalDistanceValue.CompareTo(other.TotalDistanceValue);
         if (distance != 0) {
             return distance;
@@ -166,7 +133,7 @@ public class RoomValue : IComparable<RoomValue> {
 
     #region Debug
     public string WriteDebug(LevelRequirements levelRequirements) {
-        return "{0:N2}: Treasures:{1}/{2}, Enemies:{3}/{4}".FormatWith(TotalDistanceValue, NumberOfTreasureCells, MaxTreasures(levelRequirements), NumberOfEnemyCells, MaxEnemies(levelRequirements));
+        return "{0:N2}= Enemies:{1}".FormatWith(TotalDistanceValue, NumberOfEnemyCells);
     }
     #endregion
 }
