@@ -12,6 +12,13 @@ public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
 
 
     private void Awake() {
+        // Unity breaks prefab links when the library is added to new projects. We can avoid this problem by setting them via code.
+        DebugText = this.GetComponentInChild<Text>("DebugText");
+        this.GetComponentInChild<Button>("GenerateButton").onClick.AddListener(GenerateLevel);
+        this.GetComponentInChild<Button>("IncreaseSpeedButton").onClick.AddListener(IncreaseSpeed);
+        this.GetComponentInChild<Button>("DecreaseSpeedButton").onClick.AddListener(DecreaseSpeed);
+        this.GetComponentInChild<Button>("ToggleYieldButton").onClick.AddListener(ToggleYield);
+
         LevelLayoutGenerator = new LevelLayoutGenerator(this, DebugText);
 
         GeneratorSteps = new List<IGeneratorStep> {
@@ -22,13 +29,6 @@ public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
             new GenerateCellMetaData(),
             new GenerateTreasureAndEnemies()
         };
-
-        // Unity breaks prefab links when the library is added to new projects. We can avoid this problem by setting them via code.
-        DebugText = this.GetComponentInChild<Text>("DebugText");
-        this.GetComponentInChild<Button>("GenerateButton").onClick.AddListener(GenerateLevel);
-        this.GetComponentInChild<Button>("IncreaseSpeedButton").onClick.AddListener(IncreaseSpeed);
-        this.GetComponentInChild<Button>("DecreaseSpeedButton").onClick.AddListener(DecreaseSpeed);
-        this.GetComponentInChild<Button>("ToggleYieldButton").onClick.AddListener(ToggleYield);
     }
 
     private void Update() {
