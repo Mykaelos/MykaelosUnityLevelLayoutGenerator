@@ -23,8 +23,9 @@ public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
 
         GeneratorSteps = new List<IGeneratorStep> {
             new ClusteredRoomPlacer(),
+            new AddBossRoom(),
             new PrepareRoomCells(),
-            new PortalPlacer(),
+            new AddStartingRoom(),
             new SurroundRoomsWithWalls(),
             new GenerateCellMetaData(),
             new GenerateTreasureAndEnemies()

@@ -126,6 +126,16 @@ namespace MykaelosUnityLevelLayoutGenerator.Generator {
                 if (LevelLayoutData.LevelRect != Rect.zero) {
                     GizmosM.DrawRect(LevelLayoutData.LevelRect, LEVEL_RECT_GREEN);
                 }
+
+                if (LevelLayoutData.BossRoom != null) {
+                    GizmosM.DrawRect(LevelLayoutData.BossRoom.Rect, Color.red);
+                    //GizmosM.DrawRect(new Rect(LevelLayoutData.BossRoom.Rect.position - (Vector2.one * 0.5f), LevelLayoutData.BossRoom.Rect.size), BOSS_RECT_ORANGE); //TODO - Fix this for real in the generator.
+                }
+
+                if (LevelLayoutData.StartingRoom != null) {
+                    GizmosM.DrawRect(LevelLayoutData.StartingRoom.Rect, Color.green);
+                    //GizmosM.DrawRect(new Rect(LevelLayoutData.BossRoom.Rect.position - (Vector2.one * 0.5f), LevelLayoutData.BossRoom.Rect.size), BOSS_RECT_ORANGE); //TODO - Fix this for real in the generator.
+                }
             }
 
             if (CurrentGeneratorStep != null) {
@@ -134,6 +144,7 @@ namespace MykaelosUnityLevelLayoutGenerator.Generator {
         }
 
         private static readonly Color LEVEL_RECT_GREEN = "adff2f".HexAsColor().SetA(0.5f);
+        private static readonly Color BOSS_RECT_ORANGE = "FF7000".HexAsColor().SetA(1f);
         #endregion
     }
 }

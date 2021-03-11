@@ -6,7 +6,7 @@ public class LevelRequirements {
     public int CellsMinimumCount;
 
     [Tooltip("Random Room Size: X/Y is minimum size, W/H is maximum size.")]
-    public Rect RoomSizeRange = new Rect(new Vector2(2, 2), new Vector2(10, 10));
+    public Rect RoomSizeRange = new Rect(new Vector2(2, 2), new Vector2(8, 8));
 
     [Tooltip("Ratio of number of treasures per number of cells in the level.")]
     public float LevelRatioTreasuresPerCell = 2f / 100f;

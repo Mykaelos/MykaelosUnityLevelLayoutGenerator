@@ -11,6 +11,9 @@ public class LevelLayoutData {
     public Cell StartingCell;
     public Cell EndingCell;
 
+    public Room StartingRoom;
+    public Room BossRoom;
+
 
     public LevelLayoutData() {
         Rooms = new List<Room>();
