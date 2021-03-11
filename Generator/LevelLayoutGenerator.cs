@@ -74,6 +74,10 @@ namespace MykaelosUnityLevelLayoutGenerator.Generator {
             YieldManager.IsYielding = !YieldManager.IsYielding;
         }
 
+        public void SetYield(bool isYielding) {
+            YieldManager.IsYielding = isYielding;
+        }
+
         #region YieldManager Interface
         public IEnumerator Yield() {
             return YieldManager.Yield();
