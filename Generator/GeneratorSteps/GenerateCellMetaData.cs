@@ -21,7 +21,7 @@ public class GenerateCellMetaData : IGeneratorStep {
         yield return LevelLayoutGenerator.StartCoroutine(DetermineLevelSize());
         yield return LevelLayoutGenerator.StartCoroutine(CreateCellGrid());
         yield return LevelLayoutGenerator.StartCoroutine(DetermineCellDistance(LevelLayoutData.StartingCell));
-        yield return LevelLayoutGenerator.StartCoroutine(DetermineCellDistance(LevelLayoutData.EndingCell));
+        //yield return LevelLayoutGenerator.StartCoroutine(DetermineCellDistance(LevelLayoutData.EndingCell));
 
         yield return LevelLayoutGenerator.Yield();
         callback();

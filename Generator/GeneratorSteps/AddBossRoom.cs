@@ -42,6 +42,7 @@ public class AddBossRoom : IGeneratorStep {
         if (maxShimmies > 0) {
             LevelLayoutData.Rooms.Add(BossRoom);
             LevelLayoutData.BossRoom = BossRoom;
+            //levelLayoutData.EndingCell = LevelLayoutData.BossRoom.GetCellsByType(CellType.Default).RandomElement();
         }
 
         yield return LevelLayoutGenerator.Yield();

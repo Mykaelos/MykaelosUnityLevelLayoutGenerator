@@ -67,6 +67,7 @@ public class AddStartingRoom : IGeneratorStep {
         Debug.Log("closestRoom: {0}".FormatWith(ClosestRoomDistance.Distance));
 
         LevelLayoutData.StartingRoom = ClosestRoomDistance.Room1;
+        LevelLayoutData.StartingCell = LevelLayoutData.StartingRoom.GetCellsByType(CellType.Default).RandomElement();
     }
 
     private IEnumerator DeterminePortalCells() {
