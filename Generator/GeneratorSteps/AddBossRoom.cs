@@ -5,7 +5,7 @@ using MykaelosUnityLevelLayoutGenerator.Utilities;
 using UnityEngine;
 
 public class AddBossRoom : IGeneratorStep {
-    private LevelRequirements LevelRequirements;
+    //private LevelRequirements LevelRequirements;
     private LevelLayoutData LevelLayoutData;
     private LevelLayoutGenerator LevelLayoutGenerator;
 
@@ -13,9 +13,13 @@ public class AddBossRoom : IGeneratorStep {
     private int MaxShimmies = 10000;
     private Room BossRoom;
 
-    public IEnumerator Start(LevelRequirements levelRequirements, LevelLayoutData levelLayoutData, LevelLayoutGenerator levelLayoutGenerator, System.Action callback) {
-        LevelRequirements = levelRequirements;
+
+    public AddBossRoom(LevelLayoutData levelLayoutData) {
         LevelLayoutData = levelLayoutData;
+    }
+
+    public IEnumerator Start(LevelLayoutGenerator levelLayoutGenerator, System.Action callback) {
+        //LevelRequirements = levelRequirements;
         LevelLayoutGenerator = levelLayoutGenerator;
 
         var size = Vector2.one * Random.Range(10, 16);

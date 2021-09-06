@@ -6,7 +6,7 @@ using MykaelosUnityLevelLayoutGenerator.Utilities;
 using UnityEngine;
 
 public class PortalPlacer : IGeneratorStep {
-    private LevelRequirements LevelRequirements;
+    //private LevelRequirements LevelRequirements;
     private LevelLayoutData LevelLayoutData;
     private LevelLayoutGenerator LevelLayoutGenerator;
 
@@ -15,9 +15,13 @@ public class PortalPlacer : IGeneratorStep {
     private readonly float IdealDistanceModifier = 0.75f;
 
 
-    public IEnumerator Start(LevelRequirements levelRequirements, LevelLayoutData levelLayoutData, LevelLayoutGenerator levelLayoutGenerator, Action callback) {
-        LevelRequirements = levelRequirements;
+    public PortalPlacer(LevelLayoutData levelLayoutData) {
         LevelLayoutData = levelLayoutData;
+    }
+
+    public IEnumerator Start(LevelLayoutGenerator levelLayoutGenerator, Action callback) {
+        //LevelRequirements = levelRequirements;
+        //LevelLayoutData = levelLayoutData;
         LevelLayoutGenerator = levelLayoutGenerator;
 
         yield return LevelLayoutGenerator.StartCoroutine(GenerateRoomDistanceData());

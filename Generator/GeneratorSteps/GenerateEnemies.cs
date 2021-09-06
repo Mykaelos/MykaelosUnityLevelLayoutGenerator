@@ -16,9 +16,14 @@ public class GenerateEnemies : IGeneratorStep {
     private float HighestAverageDistanceValue = 0;
 
 
-    public IEnumerator Start(LevelRequirements levelRequirements, LevelLayoutData levelLayoutData, LevelLayoutGenerator levelLayoutGenerator, Action callback) {
-        LevelRequirements = levelRequirements;
+    public GenerateEnemies(LevelLayoutData levelLayoutData, LevelRequirements levelRequirements) {
         LevelLayoutData = levelLayoutData;
+        LevelRequirements = levelRequirements;
+    }
+
+    public IEnumerator Start(LevelLayoutGenerator levelLayoutGenerator, Action callback) {
+        //LevelRequirements = levelRequirements;
+        //LevelLayoutData = levelLayoutData;
         LevelLayoutGenerator = levelLayoutGenerator;
 
         yield return LevelLayoutGenerator.StartCoroutine(CalculateAndSortRoomValue());

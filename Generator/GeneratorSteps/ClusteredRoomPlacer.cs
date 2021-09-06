@@ -15,9 +15,14 @@ public class ClusteredRoomPlacer : IGeneratorStep {
     private int CurrentCellCount;
 
 
-    public IEnumerator Start(LevelRequirements levelRequirements, LevelLayoutData levelLayoutData, LevelLayoutGenerator levelLayoutGenerator, System.Action callback) {
-        LevelRequirements = levelRequirements;
+    public ClusteredRoomPlacer(LevelLayoutData levelLayoutData, LevelRequirements levelRequirements) {
         LevelLayoutData = levelLayoutData;
+        LevelRequirements = levelRequirements;
+    }
+
+    public IEnumerator Start(LevelLayoutGenerator levelLayoutGenerator, System.Action callback) {
+        //LevelRequirements = levelRequirements;
+        //LevelLayoutData = levelLayoutData;
         LevelLayoutGenerator = levelLayoutGenerator;
 
         CurrentCellCount = 0;

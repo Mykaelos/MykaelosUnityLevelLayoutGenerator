@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
     public LevelRequirements LevelRequirements = new LevelRequirements(500);
+    public LevelLayoutData LevelLayoutData;
 
     private Text DebugText;
     private LevelLayoutGenerator LevelLayoutGenerator;
@@ -21,16 +22,16 @@ public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
 
         LevelLayoutGenerator = new LevelLayoutGenerator(this, DebugText);
 
-        GeneratorSteps = new List<IGeneratorStep> {
-            new ClusteredRoomPlacer(),
-            new AddBossRoom(),
-            new PrepareRoomCells(),
-            new AddStartingRoom(),
-            new SurroundRoomsWithWalls(),
-            new GenerateCellMetaData(),
-            new GenerateEnemies(),
-            new GenerateTreasures()
-        };
+        //GeneratorSteps = new List<IGeneratorStep> {
+        //    new ClusteredRoomPlacer(),
+        //    new AddBossRoom(),
+        //    new PrepareRoomCells(),
+        //    new AddStartingRoom(),
+        //    new SurroundRoomsWithWalls(),
+        //    new GenerateCellMetaData(),
+        //    new GenerateEnemies(),
+        //    new GenerateTreasures()
+        //};
     }
 
     private void Update() {
@@ -43,13 +44,43 @@ public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.DownArrow)) {
             DecreaseSpeed();
         }
+        if (Input.GetKeyDown(KeyCode.Y)) {
+            ToggleYield();
+        }
 
-        LevelLayoutGenerator.DrawDebugText();
+        string debugText = "";
+        if (LevelLayoutData != null) {
+            debugText += LevelLayoutData.DrawDebugText();
+        }
+
+        if (LevelLayoutGenerator != null) {
+            debugText += LevelLayoutGenerator.DrawDebugText();
+        }
+
+        DebugText.text = debugText;
+
+        //LevelLayoutGenerator.DrawDebugText();
     }
 
     #region GUI Public Interface Methods
     public void GenerateLevel() {
-        LevelLayoutGenerator.GenerateLevel(LevelRequirements, GeneratorSteps);
+        LevelLayoutData = new LevelLayoutData();
+
+        GeneratorSteps = new List<IGeneratorStep> {
+            new ClusteredRoomPlacer(LevelLayoutData, LevelRequirements),
+            new AddBossRoom(LevelLayoutData),
+            new PrepareRoomCells(LevelLayoutData),
+            new AddStartingRoom(LevelLayoutData),
+            new SurroundRoomsWithWalls(LevelLayoutData),
+            new GenerateCellMetaData(LevelLayoutData),
+            new GenerateEnemies(LevelLayoutData, LevelRequirements),
+            new GenerateTreasures(LevelLayoutData, LevelRequirements)
+        };
+
+        LevelLayoutGenerator.GenerateLevel(GeneratorSteps, delegate {
+            Debug.Log("Level generated.");
+            // LevelLayoutData is complete and ready to be used.
+        });
     }
 
     public void IncreaseSpeed() {
@@ -66,6 +97,13 @@ public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
     #endregion
 
     private void OnDrawGizmos() {
+        //if (LevelLayoutGenerator != null) {
+        //    LevelLayoutGenerator.DrawDebug();
+        //}
+        if (LevelLayoutData != null) {
+            LevelLayoutData.DrawDebug();
+        }
+
         if (LevelLayoutGenerator != null) {
             LevelLayoutGenerator.DrawDebug();
         }
