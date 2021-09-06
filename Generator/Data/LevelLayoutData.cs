@@ -33,61 +33,38 @@ public class LevelLayoutData {
     }
 
     #region DrawDebug - Debug visuals while generating the level
-    public string DrawDebugText() {
-        //if (DebugText != null) {
-            string debugString = "";
+    public string GetDebugText() {
+        string debugString = "";
 
-            //debugString +=
-            //    Duration.GetDurationTimeStamp().NL() +
-            //    "YieldTime: {0:N3}\nSpeed: {1:N1}%".FormatWith(YieldManager.YieldTime, YieldManager.SpeedFraction * 100).NL();
-
-            //if (LevelLayoutData != null) {
-                if (!Rooms.IsNullOrEmpty()) {
-                    debugString += "Total Rooms: {0}".FormatWith(Rooms.Count).NL();
-                }
-                if (!Cells.IsNullOrEmpty()) {
-                    debugString += "Total Cells: {0}".FormatWith(Cells.Count).NL();
-                }
-                debugString = debugString.NL();
-            //}
-
-            //if (CurrentGeneratorStep != null) {
-            //    debugString +=
-            //        "Running: {0}".FormatWith(CurrentGeneratorStep.GetType().Name).NL()
-            //        + CurrentGeneratorStep.WriteDebug();
-            //}
-
-        //    DebugText.text = debugString;
-        //}
-
+        if (!Rooms.IsNullOrEmpty()) {
+            debugString += "Total Rooms: {0}".FormatWith(Rooms.Count).NL();
+        }
+        if (!Cells.IsNullOrEmpty()) {
+            debugString += "Total Cells: {0}".FormatWith(Cells.Count).NL();
+        }
+        debugString = debugString.NL();
 
         return debugString;
     }
 
     public void DrawDebug() {
-        //if (LevelLayoutData != null) {
-            foreach (var room in Rooms) {
-                room.DrawDebug();
-            }
+        foreach (var room in Rooms) {
+            room.DrawDebug();
+        }
 
-            if (LevelRect != Rect.zero) {
-                GizmosM.DrawRect(LevelRect, LEVEL_RECT_GREEN);
-            }
+        if (LevelRect != Rect.zero) {
+            GizmosM.DrawRect(LevelRect, LEVEL_RECT_GREEN);
+        }
 
-            if (BossRoom != null) {
-                GizmosM.DrawRect(BossRoom.Rect, Color.red);
-                //GizmosM.DrawRect(new Rect(LevelLayoutData.BossRoom.Rect.position - (Vector2.one * 0.5f), LevelLayoutData.BossRoom.Rect.size), BOSS_RECT_ORANGE); //TODO - Fix this for real in the generator.
-            }
+        if (BossRoom != null) {
+            GizmosM.DrawRect(BossRoom.Rect, Color.red);
+            //GizmosM.DrawRect(new Rect(LevelLayoutData.BossRoom.Rect.position - (Vector2.one * 0.5f), LevelLayoutData.BossRoom.Rect.size), BOSS_RECT_ORANGE); //TODO - Fix this for real in the generator.
+        }
 
-            if (StartingRoom != null) {
-                GizmosM.DrawRect(StartingRoom.Rect, Color.green);
-                //GizmosM.DrawRect(new Rect(LevelLayoutData.BossRoom.Rect.position - (Vector2.one * 0.5f), LevelLayoutData.BossRoom.Rect.size), BOSS_RECT_ORANGE); //TODO - Fix this for real in the generator.
-            }
-        //}
-
-        //if (CurrentGeneratorStep != null) {
-        //    CurrentGeneratorStep.DrawDebug();
-        //}
+        if (StartingRoom != null) {
+            GizmosM.DrawRect(StartingRoom.Rect, Color.green);
+            //GizmosM.DrawRect(new Rect(LevelLayoutData.BossRoom.Rect.position - (Vector2.one * 0.5f), LevelLayoutData.BossRoom.Rect.size), BOSS_RECT_ORANGE); //TODO - Fix this for real in the generator.
+        }
     }
 
     private static readonly Color LEVEL_RECT_GREEN = "adff2f".HexAsColor().SetA(0.5f);

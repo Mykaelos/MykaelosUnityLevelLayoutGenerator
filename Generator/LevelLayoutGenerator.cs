@@ -3,17 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using MykaelosUnityLevelLayoutGenerator.Utilities;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace MykaelosUnityLevelLayoutGenerator.Generator {
     public class LevelLayoutGenerator {
         private MonoBehaviour Owner;
         private YieldManager YieldManager;
         private Duration Duration = new Duration();
-        private Text DebugText;
 
-        //private LevelLayoutData LevelLayoutData;
-        //private LevelRequirements LevelRequirements;
         private Coroutine CurrentCoroutine;
         private Action Callback;
 
@@ -28,9 +24,8 @@ namespace MykaelosUnityLevelLayoutGenerator.Generator {
         }
 
 
-        public LevelLayoutGenerator(MonoBehaviour owner, Text debugTextBox = null) {
+        public LevelLayoutGenerator(MonoBehaviour owner) {
             Owner = owner;
-            DebugText = debugTextBox;
             YieldManager = new YieldManager(Owner);
         }
 
@@ -41,7 +36,6 @@ namespace MykaelosUnityLevelLayoutGenerator.Generator {
 
             Callback = completeCallback;
             Duration.Start();
-            //LevelLayoutData = new LevelLayoutData();
             GeneratorSteps = generatorSteps.IsNotEmpty() ? generatorSteps : new List<IGeneratorStep>();
             CurrentGeneratorStepIndex = -1;
 
@@ -57,7 +51,6 @@ namespace MykaelosUnityLevelLayoutGenerator.Generator {
                 CurrentCoroutine = null;
                 Duration.Stop();
 
-                //Callback?.Invoke(LevelLayoutData);
                 Callback?.Invoke();
             }
         }
@@ -89,57 +82,23 @@ namespace MykaelosUnityLevelLayoutGenerator.Generator {
         #endregion
 
         #region DrawDebug - Debug visuals while generating the level
-        public string DrawDebugText() {
-            //if (DebugText != null) {
-                string debugString = "";
+        public string GetDebugText() {
+            string debugString = "";
 
+            debugString +=
+                Duration.GetDurationTimeStamp().NL() +
+                "YieldTime: {0:N3}\nSpeed: {1:N1}%".FormatWith(YieldManager.YieldTime, YieldManager.SpeedFraction * 100).NL();
+
+            if (CurrentGeneratorStep != null) {
                 debugString +=
-                    Duration.GetDurationTimeStamp().NL() +
-                    "YieldTime: {0:N3}\nSpeed: {1:N1}%".FormatWith(YieldManager.YieldTime, YieldManager.SpeedFraction * 100).NL();
-
-                //if (LevelLayoutData != null) {
-                //    if (!LevelLayoutData.Rooms.IsNullOrEmpty()) {
-                //        debugString += "Total Rooms: {0}".FormatWith(LevelLayoutData.Rooms.Count).NL();
-                //    }
-                //    if (!LevelLayoutData.Cells.IsNullOrEmpty()) {
-                //        debugString += "Total Cells: {0}".FormatWith(LevelLayoutData.Cells.Count).NL();
-                //    }
-                //    debugString = debugString.NL();
-                //}
-
-                if (CurrentGeneratorStep != null) {
-                    debugString +=
-                        "Running: {0}".FormatWith(CurrentGeneratorStep.GetType().Name).NL()
-                        + CurrentGeneratorStep.WriteDebug();
-                }
-
-            //    DebugText.text = debugString;
-            //}
+                    "Running: {0}".FormatWith(CurrentGeneratorStep.GetType().Name).NL()
+                    + CurrentGeneratorStep.WriteDebug();
+            }
 
             return debugString;
         }
 
         public void DrawDebug() {
-            //if (LevelLayoutData != null) {
-            //    foreach (var room in LevelLayoutData.Rooms) {
-            //        room.DrawDebug();
-            //    }
-
-            //    if (LevelLayoutData.LevelRect != Rect.zero) {
-            //        GizmosM.DrawRect(LevelLayoutData.LevelRect, LEVEL_RECT_GREEN);
-            //    }
-
-            //    if (LevelLayoutData.BossRoom != null) {
-            //        GizmosM.DrawRect(LevelLayoutData.BossRoom.Rect, Color.red);
-            //        //GizmosM.DrawRect(new Rect(LevelLayoutData.BossRoom.Rect.position - (Vector2.one * 0.5f), LevelLayoutData.BossRoom.Rect.size), BOSS_RECT_ORANGE); //TODO - Fix this for real in the generator.
-            //    }
-
-            //    if (LevelLayoutData.StartingRoom != null) {
-            //        GizmosM.DrawRect(LevelLayoutData.StartingRoom.Rect, Color.green);
-            //        //GizmosM.DrawRect(new Rect(LevelLayoutData.BossRoom.Rect.position - (Vector2.one * 0.5f), LevelLayoutData.BossRoom.Rect.size), BOSS_RECT_ORANGE); //TODO - Fix this for real in the generator.
-            //    }
-            //}
-
             if (CurrentGeneratorStep != null) {
                 CurrentGeneratorStep.DrawDebug();
             }

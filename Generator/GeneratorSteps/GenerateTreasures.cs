@@ -22,8 +22,6 @@ public class GenerateTreasures : IGeneratorStep {
     }
 
     public IEnumerator Start(LevelLayoutGenerator levelLayoutGenerator, Action callback) {
-        //LevelRequirements = levelRequirements;
-        //LevelLayoutData = levelLayoutData;
         LevelLayoutGenerator = levelLayoutGenerator;
 
         yield return LevelLayoutGenerator.StartCoroutine(CalculateAndSortRoomValue());

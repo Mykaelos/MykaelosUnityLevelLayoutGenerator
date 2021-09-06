@@ -5,7 +5,6 @@ using MykaelosUnityLevelLayoutGenerator.Generator;
 using UnityEngine;
 
 public class SurroundRoomsWithWalls : IGeneratorStep {
-    //private LevelRequirements LevelRequirements;
     private LevelLayoutData LevelLayoutData;
     private LevelLayoutGenerator LevelLayoutGenerator;
     private Cell CurrentCell;
@@ -16,8 +15,6 @@ public class SurroundRoomsWithWalls : IGeneratorStep {
     }
 
     public IEnumerator Start(LevelLayoutGenerator levelLayoutGenerator, Action callback) {
-        //LevelRequirements = levelRequirements;
-        //LevelLayoutData = levelLayoutData;
         LevelLayoutGenerator = levelLayoutGenerator;
 
         var roomList = new List<Room>(LevelLayoutData.Rooms);

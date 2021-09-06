@@ -5,7 +5,6 @@ using MykaelosUnityLevelLayoutGenerator.Utilities;
 using UnityEngine;
 
 public class AddBossRoom : IGeneratorStep {
-    //private LevelRequirements LevelRequirements;
     private LevelLayoutData LevelLayoutData;
     private LevelLayoutGenerator LevelLayoutGenerator;
 
@@ -19,7 +18,6 @@ public class AddBossRoom : IGeneratorStep {
     }
 
     public IEnumerator Start(LevelLayoutGenerator levelLayoutGenerator, System.Action callback) {
-        //LevelRequirements = levelRequirements;
         LevelLayoutGenerator = levelLayoutGenerator;
 
         var size = Vector2.one * Random.Range(10, 16);

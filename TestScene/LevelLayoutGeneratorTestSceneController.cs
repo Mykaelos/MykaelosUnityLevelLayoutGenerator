@@ -20,18 +20,7 @@ public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
         this.GetComponentInChild<Button>("DecreaseSpeedButton").onClick.AddListener(DecreaseSpeed);
         this.GetComponentInChild<Button>("ToggleYieldButton").onClick.AddListener(ToggleYield);
 
-        LevelLayoutGenerator = new LevelLayoutGenerator(this, DebugText);
-
-        //GeneratorSteps = new List<IGeneratorStep> {
-        //    new ClusteredRoomPlacer(),
-        //    new AddBossRoom(),
-        //    new PrepareRoomCells(),
-        //    new AddStartingRoom(),
-        //    new SurroundRoomsWithWalls(),
-        //    new GenerateCellMetaData(),
-        //    new GenerateEnemies(),
-        //    new GenerateTreasures()
-        //};
+        LevelLayoutGenerator = new LevelLayoutGenerator(this);
     }
 
     private void Update() {
@@ -50,16 +39,14 @@ public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
 
         string debugText = "";
         if (LevelLayoutData != null) {
-            debugText += LevelLayoutData.DrawDebugText();
+            debugText += LevelLayoutData.GetDebugText();
         }
 
         if (LevelLayoutGenerator != null) {
-            debugText += LevelLayoutGenerator.DrawDebugText();
+            debugText += LevelLayoutGenerator.GetDebugText();
         }
 
         DebugText.text = debugText;
-
-        //LevelLayoutGenerator.DrawDebugText();
     }
 
     #region GUI Public Interface Methods
@@ -97,9 +84,6 @@ public class LevelLayoutGeneratorTestSceneController : MonoBehaviour {
     #endregion
 
     private void OnDrawGizmos() {
-        //if (LevelLayoutGenerator != null) {
-        //    LevelLayoutGenerator.DrawDebug();
-        //}
         if (LevelLayoutData != null) {
             LevelLayoutData.DrawDebug();
         }
